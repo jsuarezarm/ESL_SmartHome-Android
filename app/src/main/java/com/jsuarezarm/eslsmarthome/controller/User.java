@@ -20,18 +20,32 @@ import java.util.regex.Pattern;
 public class User {
 
     public static void create(final Activity activity, String email, String password) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()) {
-//                            Log.d("user", "createUserWithEmail:success");
-                            Intent intent = new Intent(activity, MainActivity.class);
-                            intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK); // Close all before activities
-                            activity.startActivity(intent);
-                            activity.finish();
+                            // Send email verification
+                            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(activity, activity.getString(R.string.verification_email_sent), Toast.LENGTH_SHORT).show();
+
+                                        activity.finish();
+                                    } else {
+                                        Toast.makeText(activity, activity.getString(R.string.verification_email_failed), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+////                            Log.d("user", "createUserWithEmail:success");
+//                            Intent intent = new Intent(activity, MainActivity.class);
+//                            intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK); // Close all before activities
+//                            activity.startActivity(intent);
+//                            activity.finish();
                         } else {
 //                            Log.w("user", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(activity, activity.getString(R.string.email_invalid), Toast.LENGTH_SHORT).show();
@@ -42,16 +56,21 @@ public class User {
     }
 
     public static void logIn(final Activity activity, String email, String password) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()) {
-//                            Log.d("user", "logIn:success");
-                            activity.startActivity(new Intent(activity, MainActivity.class));
-                            activity.finish();
+                            if(mAuth.getCurrentUser().isEmailVerified()) {
+//                                Log.d("user", "logIn:success");
+                                activity.startActivity(new Intent(activity, MainActivity.class));
+                                activity.finish();
+                            } else {
+                                Toast.makeText(activity, activity.getString(R.string.verify_email), Toast.LENGTH_SHORT).show();
+                            }
+
                         } else {
 //                            Log.w("user", "logIn:failure", task.getException());
                             Toast.makeText(activity, activity.getString(R.string.login_incorrect), Toast.LENGTH_SHORT).show();

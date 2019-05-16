@@ -32,6 +32,9 @@
     <string name="user_not_deleted">Account not deleted!</string>
     <string name="changed_password">Password updated!</string>
     <string name="not_changed_password">Password not updated!</string>
+    <string name="verification_email_sent">Verification email sent!</string>
+    <string name="verification_email_failed">Verification email not sent!</string>
+    <string name="verify_email">Please verify email!</string>
 
     <!-- LogOut Dialog -->
     <string name="logout_dialog_title">Log out</string>

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,13 +24,19 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Check if user is authenticated
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                    finish();
+                    if(user.isEmailVerified()) {
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), getString(R.string.verify_email), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                        finish();
+                    }
                 }
             }, delayTime);
         } else {
