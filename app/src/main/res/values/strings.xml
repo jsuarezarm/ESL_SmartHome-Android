@@ -14,6 +14,7 @@
     <string name="sign_in_password">Password</string>
     <string name="sign_in_login">LogIn</string>
     <string name="sign_in_signup"><u>Don\'t have an account? Sign up!</u></string>
+    <string name="sign_in_change_password">Forgot your password?</string>
 
     <!-- SignUp Activity -->
     <string name="sign_up_title">Sign Up</string>
@@ -21,6 +22,11 @@
     <string name="sign_up_password">Password</string>
     <string name="sign_up_confirm_password">Confirm password</string>
     <string name="sign_up_signup">SignUp</string>
+
+    <!-- Change password Activity -->
+    <string name="change_password_title">Reset Password</string>
+    <string name="change_password_email">Email</string>
+    <string name="change_password_send_email">Send Email</string>
 
     <!-- User -->
     <string name="login_incorrect">Invalid email or password!</string>
@@ -35,6 +41,8 @@
     <string name="verification_email_sent">Verification email sent!</string>
     <string name="verification_email_failed">Verification email not sent!</string>
     <string name="verify_email">Please verify email!</string>
+    <string name="change_password_email_sent">Reset password email sent!</string>
+    <string name="change_password_email_failed">Reset password email not sent!</string>
 
     <!-- LogOut Dialog -->
     <string name="logout_dialog_title">Log out</string>

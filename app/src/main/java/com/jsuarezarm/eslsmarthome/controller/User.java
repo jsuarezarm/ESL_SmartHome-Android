@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -142,6 +144,25 @@ public class User {
                         } else {
                             Toast.makeText(activity, activity.getString(R.string.not_changed_password), Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+    }
+
+    public static void sendPasswordResetEmail(final Activity activity, String email) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.sendPasswordResetEmail(email)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(activity, activity.getString(R.string.change_password_email_sent), Toast.LENGTH_SHORT).show();
+
+                        activity.finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity, activity.getString(R.string.change_password_email_failed), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -20,6 +20,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText password;
     private Button signin;
     private TextView signup;
+    private TextView changePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class SignInActivity extends AppCompatActivity {
         password = findViewById(R.id.sign_in_password);
         signin = findViewById(R.id.sign_in_login);
         signup = findViewById(R.id.sign_in_signup);
+        changePassword = findViewById(R.id.sign_in_change_password);
 
         // Sign in
         signin.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +60,14 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+            }
+        });
+
+        // Change password
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignInActivity.this, ChangePasswordActivity.class));
             }
         });
     }
